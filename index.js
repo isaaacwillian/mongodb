@@ -11,21 +11,33 @@ const linkSchema = new mongoose.Schema({
 
 const Link = mongoose.model("Link", linkSchema); //collections
 
-let link = new Link({
-  title: "blabla",
-  description: "blablabla",
-  url: "snsdivems",
-  click: 0,
-});
+// let link = new Link({
+//   title: "google",
+//   description: "blablabla",
+//   url: "https://www.google.com",
+//   click: 0,
+// });
 
-link
-  .save()
-  .then((doc) => console.log(doc))
-  .catch((err) => console.log(err));
+// link
+//   .save()
+//   .then((doc) => console.log(doc))
+//   .catch((err) => console.log(err));
 
 mongoose.connect("mongodb://localhost/links", (error, db) => {
   //database name
   console.log("Connected to database");
+
+  app.get("/:title", async (req, res) => {
+    let title = req.params.title;
+
+    try {
+      let doc = await Link.findOne({ title });
+
+      res.redirect(doc.url);
+    } catch (error) {
+      res.send(error);
+    }
+  });
 });
 
 app.get("/", (req, res) => res.send("Hello World"));
