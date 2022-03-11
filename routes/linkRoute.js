@@ -8,6 +8,6 @@ router.get("/api/:title", linkController.showJson);
 
 router.post("/", express.urlencoded(), linkController.addLink);
 
-router.get("/", (req, res) => res.send("Hello World"));
+router.get("/", (req, res) => res.render("index"));
 
 module.exports = router;
