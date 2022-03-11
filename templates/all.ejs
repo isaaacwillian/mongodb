@@ -12,7 +12,28 @@
             <h2><%=links[i].title%></h2>
             <div><%=links[i].description%></div>
             <div><%=links[i].url%></div>
+            <button onclick="deleteLink('<%=links[i]._id%>')">Delete</button>
         </div>
     <%}%>
+    <script>
+
+        function deleteLink(id){
+
+            fetch('/' + id,{method:'DELETE'}).then(res=>{
+
+                if(res.status == 200){
+                    res.text().then(linkId=>{
+                        document.getElementById(linkId).remove();
+                    })
+                } else {
+                    res.json().then(err=>{
+                        console.log(err.message)
+                        alert(err.message)
+                    })
+                }
+            })
+        }
+
+    </script>
 </body>
 </html>

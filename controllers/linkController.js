@@ -8,7 +8,7 @@ const redirect = async (req, res) => {
       res.redirect(doc.url);
     })
     .catch((error) => {
-      res.send("Error 404 - NOT FOUND");
+      res.status(404).send("Error 404 - NOT FOUND");
     });
 };
 
@@ -17,10 +17,14 @@ const showJson = async (req, res) => {
 
   Link.find({ title })
     .then((doc) => {
-      res.send(doc);
+      if (doc.length != 0) {
+        res.send(doc);
+      } else {
+        throw new Error("404");
+      }
     })
     .catch((error) => {
-      res.send("Error 404 - Not Found");
+      res.status(404).send(error + " NOT FOUND");
     });
 };
 
@@ -53,11 +57,11 @@ const deleteLink = async (req, res) => {
     id = req.body.id;
   }
   Link.findByIdAndDelete(id)
-    .then((obj) => {
-      res.send("Delete complete!\n" + obj);
+    .then((response) => {
+      res.send(response.id);
     })
     .catch((err) => {
-      res.send(err);
+      res.status(404).send(err);
     });
 };
 
