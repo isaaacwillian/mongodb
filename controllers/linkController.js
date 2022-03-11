@@ -23,4 +23,17 @@ const showJson = async (req, res) => {
   }
 };
 
-module.exports = { redirect, showJson };
+const addLink = async (req, res) => {
+  let link = new Link(req.body);
+
+  link
+    .save()
+    .then((doc) => {
+      res.send(doc);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+};
+
+module.exports = { redirect, showJson, addLink };
