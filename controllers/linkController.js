@@ -40,7 +40,7 @@ const addLink = async (req, res) => {
 const allLinks = async (req, res) => {
   Link.find({})
     .then((links) => {
-      res.send(links);
+      res.render("all", { links });
     })
     .catch((error) => {
       res.send(error);
