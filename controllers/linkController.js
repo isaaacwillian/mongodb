@@ -47,4 +47,18 @@ const allLinks = async (req, res) => {
     });
 };
 
-module.exports = { redirect, showJson, addLink, allLinks };
+const deleteLink = async (req, res) => {
+  let id = req.params.id;
+  if (!id) {
+    id = req.body.id;
+  }
+  Link.findByIdAndDelete(id)
+    .then((obj) => {
+      res.send("Delete complete!\n" + obj);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+module.exports = { redirect, showJson, addLink, allLinks, deleteLink };

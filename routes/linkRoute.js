@@ -8,8 +8,12 @@ router.get("/:title", linkController.redirect);
 
 router.get("/api/:title", linkController.showJson);
 
+router.get("/", (req, res) => res.render("index", { error: false, body: {} }));
+
 router.post("/", express.urlencoded(), linkController.addLink);
 
-router.get("/", (req, res) => res.render("index", { error: false, body: {} }));
+router.delete("/:id", linkController.deleteLink);
+
+router.delete("/", express.urlencoded(), linkController.deleteLink);
 
 module.exports = router;
