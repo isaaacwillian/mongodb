@@ -3,24 +3,25 @@ const Link = require("../models/Link");
 const redirect = async (req, res) => {
   let title = req.params.title;
 
-  try {
-    let doc = await Link.findOne({ title });
-
-    res.redirect(doc.url);
-  } catch (error) {
-    res.send("Error 404");
-  }
+  Link.findOne({ title })
+    .then((doc) => {
+      res.redirect(doc.url);
+    })
+    .catch((error) => {
+      res.send("Error 404 - NOT FOUND");
+    });
 };
 
 const showJson = async (req, res) => {
   let title = req.params.title;
-  try {
-    let doc = await Link.find({ title });
 
-    res.send(doc);
-  } catch (error) {
-    res.send("Error 404");
-  }
+  Link.find({ title })
+    .then((doc) => {
+      res.send(doc);
+    })
+    .catch((error) => {
+      res.send("Error 404 - Not Found");
+    });
 };
 
 const addLink = async (req, res) => {
@@ -32,8 +33,18 @@ const addLink = async (req, res) => {
       res.send(doc);
     })
     .catch((error) => {
+      res.render("index", { error, body: req.body });
+    });
+};
+
+const allLinks = async (req, res) => {
+  Link.find({})
+    .then((links) => {
+      res.send(links);
+    })
+    .catch((error) => {
       res.send(error);
     });
 };
 
-module.exports = { redirect, showJson, addLink };
+module.exports = { redirect, showJson, addLink, allLinks };

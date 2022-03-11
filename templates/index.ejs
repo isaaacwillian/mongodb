@@ -9,10 +9,24 @@
   <body>
     <h1>Olá</h1>
     <form action="/" method="POST">
-      <input name="title" placeholder="Título" type="text" required />
-      <input name="url" placeholder="URL" type="text" />
-      <input name="description" placeholder="Descrição" type="text" />
+      <input
+        name="title"
+        placeholder="Título"
+        type="text"
+        value="<%=body.title%>"
+      />
+      <input name="url" placeholder="URL" type="text" value="<%=body.url%>" />
+      <input
+        name="description"
+        placeholder="Descrição"
+        type="text"
+        value="<%=body.description%>"
+      />
       <button>Salvar</button>
     </form>
+
+    <%if(error){%>
+    <h3><%=error.message%></h3>
+    <%}%>
   </body>
 </html>
