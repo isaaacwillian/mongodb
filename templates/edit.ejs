@@ -8,10 +8,10 @@
   </head>
   <body>
     <h1 style="display: flex; justify-content: space-between">
-      Add Link <a href="/">Ir para todos os links</a>
+      Edit Link <a href="/">Ir para todos os links</a>
     </h1>
 
-    <form action="/" method="POST">
+    <form action="/edit/<%=body.id%>" method="POST">
       <input
         name="title"
         placeholder="Título"

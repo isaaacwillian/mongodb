@@ -3,7 +3,7 @@ const Link = require("../models/Link");
 const redirect = async (req, res) => {
   let title = req.params.title;
 
-  Link.findOne({ title })
+  Link.findOneAndUpdate({ title }, { $inc: { click: 1 } })
     .then((doc) => {
       res.redirect(doc.url);
     })
@@ -34,7 +34,7 @@ const addLink = async (req, res) => {
   link
     .save()
     .then((doc) => {
-      res.send(doc);
+      res.redirect("/add");
     })
     .catch((error) => {
       res.render("index", { error, body: req.body });
@@ -65,4 +65,41 @@ const deleteLink = async (req, res) => {
     });
 };
 
-module.exports = { redirect, showJson, addLink, allLinks, deleteLink };
+const loadLink = async (req, res) => {
+  let id = req.params.id;
+  Link.findById(id)
+    .then((doc) => {
+      res.render("edit", { error: false, body: doc });
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+};
+
+const editLink = async (req, res) => {
+  let link = {};
+  link.title = req.body.title;
+  link.description = req.body.description;
+  link.url = req.body.url;
+
+  let id = req.params.id;
+  if (!id) {
+    id = req.body.id;
+  }
+
+  Link.updateOne({ _id: id }, link)
+    .then(res.redirect("/"))
+    .catch((error) => {
+      res.render("edit", { error, body: req.body });
+    });
+};
+
+module.exports = {
+  redirect,
+  showJson,
+  addLink,
+  allLinks,
+  deleteLink,
+  loadLink,
+  editLink,
+};

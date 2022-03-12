@@ -7,11 +7,15 @@
     <title>Document</title>
 </head>
 <body>
+<h1>Links</h1>
+<a href="/add">Adicionar Link</a>
     <% for(let i=0; i<links.length; i++){%>
         <div id="<%=links[i]._id%>">
             <h2><%=links[i].title%></h2>
             <div><%=links[i].description%></div>
             <div><%=links[i].url%></div>
+            <div>Clicks: <%=links[i].click%></div>
+            <a href="/edit/<%=links[i]._id%>">Edit</a>
             <button onclick="deleteLink('<%=links[i]._id%>')">Delete</button>
         </div>
     <%}%>
@@ -21,7 +25,8 @@
 
             fetch('/' + id,{method:'DELETE'}).then(res=>{
 
-                if(res.status == 200){
+                console.log(res.ok)
+                if(res.ok){
                     res.text().then(linkId=>{
                         document.getElementById(linkId).remove();
                     })
